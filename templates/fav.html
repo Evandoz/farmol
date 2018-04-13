@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}用户消息{% endblock %}
+
+{% block content %}
+<!--Breadcrumb Section Start-->
+<section class="breadcrumb-bg">
+    <div class="theme-container container ">
+        <div class="site-breadcumb">
+            <h2 class="section-title"> <span class="light-font">我的</span> <strong class="clr-txt">账户</strong> </h2>
+            <ol class="breadcrumb breadcrumb-menubar">
+                <li> <a href="#">主页</a>用户收藏</li>
+            </ol>
+        </div>
+    </div>
+</section>
+<!--Breadcrumb Section End-->
+<!-- My Account Starts-->
+<section class="account-page ptb-50">
+    <div class="container">
+        <div class="row">
+            <aside class="col-md-9 col-sm-8 ptb-15">
+                <div class="account-wrap">
+                        <div class="row">
+                            <table class="product-table">
+                                <thead class="">
+                                    <tr>
+                                        <th>商品</th>
+                                        <th></th>
+                                        <th>价格</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for fav_product in fav_products.object_list %}
+                                        <tr>
+                                            <td class="image">
+                                                <div class="white-bg">
+                                                    <a class="media-link" href="#"><img src="{{ MEDIA_URL }}{{ fav_product.product.photo }}" alt=""></a>
+                                                </div>
+                                            </td>
+                                            <td class="description">
+                                                <div class="rating">
+                                                    <span class="star active"></span>
+                                                    <span class="star active"></span>
+                                                    <span class="star active"></span>
+                                                    <span class="star active"></span>
+                                                    <span class="star active"></span>
+                                                </div>
+                                                <div class="divider-2"></div>
+                                                <h3 class="product-title no-margin"> <a href="#"> <span class="light-font">有机</span> <strong id="proid" data-id="{{ fav_product.product.id }}">{{ fav_product.product.name }}</strong> </a> </h3>
+                                            </td>
+                                            <td>
+                                                <div class="price fontbold-2">
+                                                    <strong id="price" class="fsz-20">${{ fav_product.product.price }}</strong>
+                                                    <del class="light-font"> <b>$65.00</b> </del>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                </div>
+            </aside>
+            <!-- Sidebar Starts -->
+            <aside class="col-md-3 col-sm-4">
+                <div class="widget-wrap">
+                    <h2 class="widget-title"> <span class="light-font">我的</span> <strong>账户</strong> </h2>
+                    <div class="divider-full-1"></div>
+                    <ul class="cate-widget">
+                        <li> <i class="fa fa-arrow-circle-o-right clr-txt"></i> <a href="{% url "user:info" %}">用户信息</a></li>
+                        <li> <i class="fa fa-arrow-circle-o-right clr-txt"></i> <a href="{% url "user:fav" %}">用户收藏</a></li>
+                        <li> <i class="fa fa-arrow-circle-o-right clr-txt"></i> <a href="{% url "user:order" %}">用户订单</a></li>
+                        <li> <i class="fa fa-arrow-circle-o-right clr-txt"></i> <a href="{% url "user:message" %}">用户消息</a></li>
+                    </ul>
+                </div>
+            </aside>
+            <!-- Sidebar Ends -->
+        </div>
+    </div>
+</section>
+<!-- / My Account Ends -->
+<!-- / CONTENT AREA -->
+
+{% endblock %}

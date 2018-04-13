@@ -1,0 +1,136 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<!--[if IE 7]><html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
+<!--[if IE 8]><html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="agency, ecommerce">
+    <meta name="author" content="Md. Siful Islam, Jtheme">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static "ico/apple-touch-icon-144-precomposed.png" %}">
+    <link rel="shortcut icon" href="{% static "ico/favicon.ico" %}">
+
+    <!-- Font Icon -->
+    <link href="{% static "css/plugin/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+
+    <!-- CSS Global -->
+    <link href="{% static "css/plugin/bootstrap.min.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "css/plugin/bootstrap-select.min.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "css/plugin/owl.carousel.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "css/plugin/animate.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "css/plugin/jquery-ui.min.css" %}" rel="stylesheet" type="text/css">
+    <link href="{% static "css/plugin/subscribe-better.css" %}" rel="stylesheet" type="text/css">
+
+    <!-- Custom CSS -->
+    <link href="{% static "css/style.css" %}" rel="stylesheet" type="text/css">
+
+    <!-- Color CSS -->
+
+    <!--[if lt IE 9]>
+    <script src="{% static "js/plugin/html5shiv.js" %}"></script>
+    <script src="{% static "js/plugin/respond.js" %}"></script>
+    <![endif]-->
+</head>
+
+<body id="home" class="wide">
+    <main class="wrapper">
+        <header class="login-header">
+                <div class="container-fluid rel-div">
+                    <div class="col-lg-6 col-sm-8">
+                        <div class="logo">
+                            <a href="{% url "index" %}"> <strong>养汇<img src="{% static "img/icons/logo-icon.png" %}" alt="" /> </strong> <span class="light-font">农产品</span>  </a>
+                            <span class="medium-font">有机商店</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        <section class="main-slide">
+            <img alt=".." src="{% static "img/slider/slide-1.jpg" %}" />
+            <div class="tbl-wrp slide-1">
+                <div class="text-middle">
+                    <div class="tbl-cell login-form">
+                        <aside class="col-md-4 col-sm-8 right">
+                            <div class="account-wrap cart-box">
+                                {% block content %}{% endblock %}
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+<!-- Product Preview Popup -->
+    <section class="modal fade" id="product-preview" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg product-modal">
+            <div class="modal-content">
+                <div class="modal-header" style="border-bottom: 0;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+            </div>
+        </div>
+    </section>
+        <!-- / Product Preview Popup -->
+
+    <section class="modal fade" id="jsComfirmDialig" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg confirm-tips">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <span><i class="fa fa-check-circle"></i></span>
+                        <h4 class="modal-title" id="myModalLabel">提示</h4>
+                </div>
+                <div class="modal-body">
+                    <h5>修改成功</h5>
+                </div>
+            </div>
+        </div>
+    </section>
+        <!-- / Product Preview Popup -->
+
+    <section class="modal fade" id="jsSuccessTips" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg success-tip">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <span><i class="fa fa-check-circle"></i></span>
+                    <h4 class="modal-title" id="myModalLabel">提示</h4>
+                </div>
+                <!--<div class="modal-body">
+                    <h5>修改成功</h5>
+                </div>-->
+            </div>
+        </div>
+    </section>
+
+    <!-- JS Global -->
+    <script src="{% static "js/plugin/jquery-2.2.4.min.js" %}"></script>
+    <script src="{% static "js/plugin/bootstrap.min.js" %}"></script>
+    <script src="{% static "js/plugin/bootstrap-select.min.js" %}"></script>
+    <script src="{% static "js/plugin/owl.carousel.min.js" %}"></script>
+    <script src="{% static "js/plugin/jquery.plugin.min.js" %}"></script>
+    <script src="{% static "js/plugin/jquery.countdown.js" %}"></script>
+    <script src="{% static "js/plugin/jquery-ui.min.js" %}"></script>
+    <script src="{% static "js/plugin/jquery.subscribe-better.min.js" %}"></script>
+    <script src="{% static "js/validate.js" %}"></script>
+    <script src="{% static "js/validateDialog.js" %}"></script>
+    <script src="{% static "js/login.js" %}"></script>
+
+    <script>
+        $(document).ready(function(){
+            var captcha = $("#id_captcha_1");
+            if(captcha){
+                captcha.addClass("form-control");
+                captcha.attr("placeholder", "请输入验证码")
+            }
+        });
+    </script>
+
+</body>

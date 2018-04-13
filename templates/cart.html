@@ -1,0 +1,300 @@
+﻿{% extends "base.html" %}{% load staticfiles %}
+
+{% block title %}My Cart{% endblock %}
+
+{% block content %}
+<!--Breadcrumb Section Start-->
+<section class="breadcrumb-bg">
+    <div class="theme-container container ">
+        <div class="site-breadcumb white-clr">
+            <h2 class="section-title"> <strong class="clr-txt">养汇</strong> <span class="light-font">商店</span> </h2>
+            <ol class="breadcrumb breadcrumb-menubar">
+                <li> <a href="#">主页</a>购物车</li>
+            </ol>
+        </div>
+    </div>
+</section>
+<!--Breadcrumb Section End-->
+<!-- Cart Starts-->
+<section class="shop-wrap sec-space">
+    <div class="container">
+        <!-- Shopping Cart Starts -->
+        <div class="cart-table">
+            <form class="cart-form">
+                <table class="product-table">
+                    <thead class="">
+                        <tr>
+                            <th>图片</th>
+                            <th>商品</th>
+                            <th>价格</th>
+                            <th>数量</th>
+                            <th>总价</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cart in all_carts %}
+                            <tr>
+                                <td class="image">
+                                    <div class="white-bg">
+                                        <a class="media-link" href="#"><img src="{{ MEDIA_URL }}{{ cart.product.photo }}" alt=""></a>
+                                    </div>
+                                </td>
+                                <td class="description">
+                                    <div class="rating">
+                                        <span class="star active"></span>
+                                        <span class="star active"></span>
+                                        <span class="star active"></span>
+                                        <span class="star active"></span>
+                                        <span class="star active"></span>
+                                    </div>
+                                    <div class="divider-2"></div>
+                                    <h3 class="product-title no-margin"> <a href="#"> <span class="light-font">有机</span> <strong id="proid" data-id="{{ cart.product.id }}">{{ cart.product.name }}</strong> </a> </h3>
+                                </td>
+                                <td>
+                                    <div class="price fontbold-2">
+                                        <strong id="price" class="fsz-20">${{ cart.product.price }}</strong>
+                                        <del class="light-font"> <b>$65.00</b> </del>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="prod-btns fontbold-2">
+                                        <div class="quantity">
+                                            <span class="btn minus"><i class="fa fa-minus-circle"></i></span>
+                                            <input title="Qty" value="{{ cart.count }}" id="qty" class="form-control qty" type="text">
+                                            <span class="btn plus"><i class="fa fa-plus-circle"></i></span>
+                                        </div>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <strong class="clr-txt fsz-20 fontbold-2 prices">$</strong>
+                                    <span data-id="{{ cart.id }}" class="remove fa fa-close clr-txt"></span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="continue-shopping">
+                    <!--<div class="left">
+                        <h6>ENTER VOUCHER CODE IF YOU HAVE ONE. <span class="clr-txt-2"> APPLY HERE </span> </h6>
+                        <div class="coupan-form">
+                            <input class="form-control">
+                            <button class="btn" type="submit"> APPLY CODE </button>
+                        </div>
+                    </div>-->
+                    <div class="right"> <strong class="fsz-20 fontbold-2">总价: <span id="all_pricess" class="clr-txt">${{ all_price }} </span> </strong> </div>
+                </div>
+                <div class="shp-btn col-sm-12 text-center">
+                    <a class="theme-btn-2 btn" href="{% url "product:list" %}"> <b>继续购物</b> </a>
+                    <a id="jsCheckout" class="theme-btn-3 btn" href=""> <b>立即结算</b> </a>
+                </div>
+            </form>
+        </div>
+        <!-- / Shopping Cart Ends -->
+    </div>
+</section>
+<!-- / Cart Ends -->
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript">
+
+$(document).ready(function(){
+    $(".prices").text(function(){
+        var price = $(this).parent().parent().find("#price").text().substring(1);
+        var nums = $(this).parent().parent().find("#qty").val();
+        price = parseFloat(price * nums);
+        $(this).text("$"+price);
+    });
+});
+
+$('.btn.plus').on('click', function(){
+    var price = $(this).parent().parent().parent().parent().find("#price").text().substring(1);
+    var $prices =$(this).parent().parent().parent().parent().find(".prices"),
+        prices = $prices.text().substring(1);
+    var $all_prices =$("#all_pricess"),
+        all_prices = $all_prices.text().substring(1);
+    price = parseFloat(price);
+    prices = parseFloat(prices);
+    all_prices = parseFloat(all_prices);
+    prices += price;
+    all_prices += price;
+    $prices.text("$"+prices);
+    $all_prices.text("$"+all_prices);
+
+    var proid = $(this).parent().parent().parent().parent().find("#proid").attr("data-id");
+    var pronums = $(this).siblings("input.qty").val();
+    pronums = parseFloat(pronums) + 1;
+
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url: "{% url "product:updatecart" %}",
+        data: {
+            pro_id: proid,
+            pro_nums: pronums,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        async: true,
+        success: function(data) {
+            //Dml.fun.winReload();
+        }
+    });
+});
+
+$('.btn.minus').on('click', function(){
+    var price = $(this).parent().parent().parent().parent().find("#price").text().substring(1);
+    var $prices =$(this).parent().parent().parent().parent().find(".prices"),
+        prices = $prices.text().substring(1);
+    var $all_prices =$("#all_pricess"),
+        all_prices = $all_prices.text().substring(1);
+    price = parseFloat(price);
+    prices = parseFloat(prices);
+    all_prices = parseFloat(all_prices);
+
+    if(prices <= 0){
+        prices = 0;
+
+    }else{
+        prices -= price;
+        all_prices -= price;
+    }
+    $prices.text("$"+prices);
+    $all_prices.text("$"+all_prices);
+
+    var proid = $(this).parent().parent().parent().parent().find("#proid").attr("data-id");
+    var pronums = $(this).siblings("input.qty").val();
+    pronums = parseFloat(pronums) - 1;
+
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url: "{% url "product:updatecart" %}",
+        data: {
+            pro_id: proid,
+            pro_nums: pronums,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        async: true,
+        success: function(data) {
+            //Dml.fun.winReload();
+        }
+    });
+});
+
+$('#qty').on('input propertychange', function(){
+    var price = $(this).parent().parent().parent().parent().find("#price").text().substring(1);
+    var $prices =$(this).parent().parent().parent().parent().find(".prices"),
+        prices = $prices.text().substring(1);
+    var $all_prices =$("#all_pricess");
+    price = parseFloat(price);
+    prices = parseFloat(prices);
+
+    var current = $(this).val();
+    current = parseFloat(current);
+
+    if(current <= 0 || isNaN(current)){
+        current=0;
+    }
+    prices = price * current;
+
+
+    var all_prices = 0, list=$(".product-table tbody").find("tr");
+    for (var i=0;i<list.length;i++) {
+       var this_num = parseFloat(list.eq(i).find("#qty").val());
+       //alert(this_num);
+       var this_price = parseFloat(list.eq(i).find("#price").text().substring(1));
+       //alert(this_price);
+       all_prices += this_num * this_price;
+     }
+
+     if(all_prices <= 0 || isNaN(all_prices)){
+        all_prices=0;
+    }
+
+    $prices.text("$"+prices);
+    $all_prices.text("$"+all_prices);
+
+    var proid = $(this).parent().parent().parent().parent().find("#proid").attr("data-id");
+
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url: "{% url "product:updatecart" %}",
+        data: {
+            pro_id: proid,
+            pro_nums: current,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        async: true,
+        success: function(data) {
+            //Dml.fun.winReload();
+        }
+    });
+})
+
+$('.remove.fa-close.clr-txt').on('click', function(){
+    var cartid = $(this).attr("data-id");
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url: "{% url "product:deletecart" %}",
+        data: {
+            cart_id: cartid,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        async: true,
+        success: function(data) {
+            if(data.status == "fail"){
+                Dml.fun.showTipsDialog({
+                    title: data.msg,
+                    type : 'failbox'
+                });
+            }else if(data.status == "success"){
+                Dml.fun.showTipsDialog({
+                    title: data.msg,
+                });
+            }
+            Dml.fun.winReload();
+        }
+    });
+});
+
+$("#jsCheckout").on('click', function() {
+    var carts_str = '';
+    var all_prices = $("#all_pricess").text().substring(1);
+    $('.product-table tbody tr').each(function(){
+        var cartid =  $(this).find('.remove.fa-close.clr-txt').attr('data-id');//订单id
+        if(carts_str == ''){
+            carts_str = cartid;
+        }else{
+            carts_str = carts_str + ',' + cartid;
+        }
+    });
+    orderSubmit(carts_str, all_prices);
+});
+
+//接口
+function orderSubmit(carts_str, all_prices) {
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url: "{% url "product:generateorder" %}",
+        data: {
+            carts_id: carts_str,
+            all_prices: all_prices,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        async: true,
+        success: function (data) {
+            Dml.fun.showTipsDialog({
+                title: data.msg,
+            });
+            Dml.fun.winReload("{% url "product:showorder" %}");
+            //window.location.href="{% url "product:showorder" %}";
+        }
+    });
+}
+
+</script>
+{% endblock %}

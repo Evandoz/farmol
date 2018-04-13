@@ -1,0 +1,312 @@
+﻿{% extends "base.html" %}{% load staticfiles %}
+{% block extra_content %}
+
+
+        <div id="loading">
+            <div class="loader">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+{% endblock %}
+            {% block content %}
+            <!-- Main Slider Start -->
+            <section class="main-slide">
+                <img alt=".." src="{% static "img/slider/slide-1.jpg" %}" />
+                <div class="tbl-wrp slide-1">
+                    <div class="text-middle">
+                        <div class="tbl-cell">
+                            <div class="slide-caption container text-center">
+                                <div class="slide-title">
+                                    <img src="{% static "img/icons/slide-txt-1.png" %}" alt="" />
+                                    <span>100% 保障</span>
+                                </div>
+                                <div class="slide-title2 pb-50">
+                                    <h2 class="section-title"><strong>健康</strong><span class="light-font">生活</span> <span class="light-font">从</span><strong>有机</strong><span class="light-font">开始</span></h2>
+                                    <h4 class="sub-title">有机水果、有机蔬菜， 更多有机农产品为你送货上门</h4>
+                                </div>
+                                <div class="slide">
+                                    <a href="{% url "product:list" %}" class="slide-btn">立即购买</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- / Main Slider Ends -->
+
+            <!-- Organic All Starts-->
+            <section class="organic-all sec-space-bottom">
+                <div class="pattern">
+                    <img alt="" src="{% static "img/icons/white-pattern.png" %}" />
+                </div>
+                <div class="section-icon">
+                    <img alt="" src="{% static "img/icons/icon-1.png" %}" />
+                </div>
+                <div class="container">
+                    <div class="organic-wrap">
+                        <img class="logo-img" alt="" src="{% static "img/logo/logo-1.png" %}" />
+                        <div class="tabs-box">
+                            <ul class="theme-tabs">
+                                <li class="active"><a href="#product-tab-1" data-toggle="tab"> <span class="light-font">有机</span> <strong>水果</strong> </a></li>
+                                <li class=""><a href="#product-tab-2" data-toggle="tab"> <span class="light-font">有机</span> <strong>蔬菜</strong> </a></li>
+                                <li class=""><a href="#product-tab-3" data-toggle="tab"> <span class="light-font">有机</span> <strong>果汁</strong> </a></li>
+                                <li class=""><a href="#product-tab-4" data-toggle="tab"> <span class="light-font">有机</span> <strong>干果</strong> </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="col-md-12">
+                        <div class="tab-content organic-content row">
+                            <div id="product-tab-1" class="tab-pane fade active in">
+                                <div class="product-slider-1 dots-1">
+                                    {% for product in fruits %}
+                                        <div class="item">
+                                            <div class="product-box">
+                                                <div class="product-media">
+                                                    <img class="prod-img" alt="" src="{{ MEDIA_URL }}{{ product.photo }}" />
+                                                    <img class="shape" alt="" src="{% static "img/icons/shap-small.png" %}" />
+                                                    <div class="prod-icons">
+                                                        <a href="" data-id="{{ product.id }}" class="fa fa-heart"></a>
+                                                        <a href="" class="fa fa-shopping-basket"></a>
+                                                        <a  href="#product-preview" data-id="{{ product.id }}" data-toggle="modal" class="fa fa-expand"></a>
+                                                    </div>
+                                                </div>
+                                                <div class="product-caption">
+                                                    <h3 class="product-title">
+                                                        <a href="#"> <span class="light-font">有机</span>  <strong data-target="#product-preview">{{ product.name }}</strong></a>
+                                                    </h3>
+                                                    <div class="price">
+                                                        <strong class="clr-txt">${{ product.price }} </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div id="product-tab-2" class="tab-pane fade">
+                                <div class="product-slider-1 dots-1">
+                                    {% for product in vegetables %}
+                                        <div class="item">
+                                            <div class="product-box">
+                                                <div class="product-media">
+                                                    <img class="prod-img" alt="" src="{{ MEDIA_URL }}{{ product.photo }}" />
+                                                    <img class="shape" alt="" src="{% static "img/icons/shap-small.png" %}" />
+                                                    <div class="prod-icons">
+                                                        <a href="" data-id="{{ product.id }}" class="fa fa-heart"></a>
+                                                        <a href="" class="fa fa-shopping-basket"></a>
+                                                        <a href="#product-preview" data-id="{{ product.id }}" data-toggle="modal" class="fa fa-expand"></a>
+                                                    </div>
+                                                </div>
+                                                <div class="product-caption">
+                                                    <h3 class="product-title">
+                                                        <a href="#"> <span class="light-font">有机</span>  <strong>{{ product.name }}</strong></a>
+                                                    </h3>
+                                                    <div class="price">
+                                                        <strong class="clr-txt">${{ product.price }} </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div id="product-tab-3" class="tab-pane fade">
+                                <div class="product-slider-1 dots-1">
+                                    {% for product in dried_fruits %}
+                                        <div class="item">
+                                            <div class="product-box">
+                                                <div class="product-media">
+                                                    <img class="prod-img" alt="" src="{{ MEDIA_URL }}{{ product.photo }}" />
+                                                    <img class="shape" alt="" src="{% static "img/icons/shap-small.png" %}" />
+                                                    <div class="prod-icons">
+                                                        <a href="" data-id="{{ product.id }}" class="fa fa-heart"></a>
+                                                        <a href="" class="fa fa-shopping-basket"></a>
+                                                        <a  href="#product-preview" data-id="{{ product.id }}" data-toggle="modal" class="fa fa-expand"></a>
+                                                    </div>
+                                                </div>
+                                                <div class="product-caption">
+                                                    <h3 id="product_name" class="product-title">
+                                                        <a href="#"> <span class="light-font">有机</span>  <strong>{{ product.name }}</strong></a>
+                                                    </h3>
+                                                    <div class="price">
+                                                        <strong class="clr-txt">${{ product.price }} </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div id="product-tab-4" class="tab-pane fade">
+                                <div class="product-slider-1 dots-1">
+                                    {% for product in juices %}
+                                        <div class="item">
+                                            <div class="product-box">
+                                                <div class="product-media">
+                                                    <img class="prod-img" alt="" src="{{ MEDIA_URL }}{{ product.photo }}" />
+                                                    <img class="shape" alt="" src="{% static "img/icons/shap-small.png" %}" />
+                                                    <div class="prod-icons">
+                                                        <a href="" data-id="{{ product.id }}" class="fa fa-heart"></a>
+                                                        <a href="" class="fa fa-shopping-basket"></a>
+                                                        <a  href="#product-preview" data-id="{{ product.id }}" data-toggle="modal" class="fa fa-expand"></a>
+                                                    </div>
+                                                </div>
+                                                <div class="product-caption">
+                                                    <h3 class="product-title">
+                                                        <a href="#"> <span class="light-font"> organic </span>  <strong>{{ product.name }}</strong></a>
+                                                    </h3>
+                                                    <div class="price">
+                                                        <strong class="clr-txt">${{ product.price }} </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- / Organic All Ends -->
+
+            <!-- Organic Farmfood Starts-->
+            <section class="organic-farm sec-space-top light-bg">
+
+                <img alt="" src="{% static "img/extra/sec-img-1.png" %}" class="left-bg-img" />
+                <img alt="" src="{% static "img/extra/sec-img-2.png" %}" class="center-bg-img" />
+
+                <div class="container rel-div">
+                    <div class="title-wrap">
+                        <h2 class="section-title"> <span class="light-font">we are </span> <strong>organic farmfood <img src="{% static "img/icons/logo-icon.png" %}" alt="" /> </strong> </h2>
+                        <h4 class="sub-title"> <span> ABOUT NATURIX FARMFOOD </span> </h4>
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. </p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6 text-center">
+                            <div class="feature-wrap">
+                                <img src="{% static "img/extra/feature-1.png" %}" alt="" />
+                                <h3 class="title-1 ptb-15"> <span class="light-font">fresh from </span> <strong> naturix farm</strong> </h3>
+                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.  </p>
+                                <a href="#" class="sm-bnt-wht">Read More</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 text-center">
+                            <div class="feature-wrap">
+                                <img src="{% static "img/extra/feature-2.png" %}" alt="" />
+                                <h3 class="title-1 ptb-15"> <span class="light-font"> 100%</span> <strong> organic goods</strong> </h3>
+                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.  </p>
+                                <a href="#" class="sm-bnt-wht">Read More</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 text-center">
+                            <div class="feature-wrap">
+                                <img src="{% static "img/extra/feature-3.png" %}" alt="" />
+                                <h3 class="title-1 ptb-15"> <span class="light-font">premium </span> <strong> quality</strong> </h3>
+                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.  </p>
+                                <a href="#" class="sm-bnt-wht">Read More</a>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 text-center">
+                            <div class="feature-wrap">
+                                <img src="{% static "img/extra/feature-4.png" %}" alt="" />
+                                <h3 class="title-1 ptb-15"> <span class="light-font">100% </span> <strong>natural</strong> </h3>
+                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.  </p>
+                                <a href="#" class="sm-bnt-wht">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rel-div feature-img">
+                        <img src="{% static "img/extra/feature.png" %}" alt="" />
+                    </div>
+                </div>
+            </section>
+            <!-- / Organic Farmfood Ends -->
+
+            <!-- Our Products Starts-->
+            <section class="organic-product sec-space">
+                <div class="container">
+                    <div class="row sec-space-top">
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="organic-prod">
+                                        <img src="{% static "img/extra/organic-1.png" %}" alt="" />
+                                        <span class="divider"></span>
+                                        <h3 class="title-1"> <a href="#"> <span class="light-font">organic </span> <strong> fruits</strong> </a> </h3>
+                                        <a class="clr-txt font-2" href="#"> <i> 52 items </i> </a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="organic-prod">
+                                        <img src="{% static "img/extra/organic-2.png" %}" alt="" />
+                                        <span class="divider"></span>
+                                        <h3 class="title-1"> <a href="#"> <span class="light-font">fresh </span> <strong> vegetables</strong> </a> </h3>
+                                        <a class="clr-txt font-2" href="#"> <i> 35 items </i> </a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="organic-prod">
+                                        <img src="{% static "img/extra/organic-3.png" %}" alt="" />
+                                        <span class="divider"></span>
+                                        <h3 class="title-1"> <a href="#"> <span class="light-font">organic </span> <strong> breads</strong> </a> </h3>
+                                        <a class="clr-txt font-2" href="#"> <i> 23 items </i> </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="organic-prod-info">
+                                <h4 class="sub-title">  FRESH FROM OUR FARM </h4>
+                                <h2 class="section-title ptb-15"> <span class="light-font">220+ </span> <strong>fruits, vegetables </strong> <span class="light-font"> & </span> <strong> lot more</strong> </h2>
+                                <p class="fsz-16">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row sec-space-top">
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="organic-prod-info">
+                                <h4 class="sub-title">  FRESH FROM OUR FARM </h4>
+                                <h2 class="section-title ptb-15"> <span class="light-font">115+ </span> <strong>organic juices </strong> <span class="light-font"> and </span> <strong> organic tea</strong> </h2>
+                                <p class="fsz-16">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="organic-prod">
+                                        <img src="{% static "img/extra/organic-4.png" %}" alt="" />
+                                        <span class="divider"></span>
+                                        <h3 class="title-1"> <a href="#"> <span class="light-font">organic </span> <strong> juices</strong> </a> </h3>
+                                        <a class="clr-txt font-2" href="#"> <i> 26 items </i> </a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="organic-prod">
+                                        <img src="{% static "img/extra/organic-5.png" %}" alt="" />
+                                        <span class="divider"></span>
+                                        <h3 class="title-1"> <a href="#"> <span class="light-font">dried </span> <strong> juices</strong> </a> </h3>
+                                        <a class="clr-txt font-2" href="#"> <i> 31 items </i> </a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="organic-prod">
+                                        <img src="{% static "img/extra/organic-6.png" %}" alt="" />
+                                        <span class="divider"></span>
+                                        <h3 class="title-1"> <a href="#"> <span class="light-font">organic </span> <strong> tea</strong> </a> </h3>
+                                        <a class="clr-txt font-2" href="#"> <i> 17 items </i> </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

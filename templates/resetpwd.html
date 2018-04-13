@@ -1,0 +1,24 @@
+{% extends "entry-base.html" %}
+
+{% block title %}用户注册{% endblock %}
+
+{% block content %}
+    <h3>用户注册</h3>
+    <form id="email_register_form" class="gray-control" action="{% url "modify" %}" method="post" autocomplete="off">
+        <div class="form-group">
+            <label> * Password </label>
+            <input type="password" class="form-control" name="password" placeholder="请输入密码" required="">
+        </div>
+        <input type="hidden" name="email" value="{{ email }}">
+        <div class="form-group">
+            <label> * Password </label>
+            <input type="password" class="form-control" name="password2" placeholder="确认密码" required="">
+        </div>
+        <div class="error btns alert alert-warning" style="text-align: center;{% if reset_form.errors or msg %} display:block; {% else %}display:none;{% endif %}" id="jsEmailTips">{% for key, error in reset_form.errors.items %}{{ error }}{% endfor %}{{ msg }}</div>
+            <div class="auto-box marb8"> </div>
+        <div class="form-group">
+            <button id="jsEmailRegBtn" type="submit" class="theme-btn btn-black">提交</button>
+        </div>
+        {% csrf_token %}
+    </form>
+{% endblock %}

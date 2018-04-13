@@ -1,0 +1,178 @@
+{% extends "base.html" %}{% load staticfiles %}
+
+{% block content %}
+<!--Breadcrumb Section Start-->
+<section class="breadcrumb-bg">
+    <div class="theme-container container ">
+        <div class="site-breadcumb">
+            <h2 class="section-title"> <span class="light-font">我的</span> <strong class="clr-txt">账户</strong> </h2>
+            <ol class="breadcrumb breadcrumb-menubar">
+                <li> <a href="#">主页</a>修改信息</li>
+            </ol>
+        </div>
+    </div>
+</section>
+<!--Breadcrumb Section End-->
+
+<!-- My Account Starts-->
+<section class="account-page ptb-50">
+    <div class="container">
+        <div class="row">
+            <aside class="col-md-9 col-sm-8 ptb-15">
+                <div class="account-wrap cart-box">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="info-left">
+                                <div class="image-form">
+                                    <iframe id="frameFile" name="frameFile" style="display: none;"></iframe>
+                                    <form id="jsAvatarForm" enctype="multipart/form-data" autocomplete="off" method="post" action="{% url "user:image" %}" target='frameFile'>
+                                        <label class="changearea" for="avatarUp">
+                                            <span id="avatardiv" class="pic">
+                                                <img width="120" height="120" class="jsAvatarShow" id="jsAvatarShow" src="{{ MEDIA_URL }}{{ request.user.image }}"/>
+                                            </span>
+                                            <span class="upload-image" >
+                                                <span class="theme-btn btn-black" id="jsAvatarBtn">修改头像</span>
+                                                <input type="file" name="image" id="jsAvatarUp" class="jsAvatarUp"/>
+                                            </span>
+                                        </label>
+                                        {% csrf_token %}
+                                    </form>
+                                </div>
+                                <div class="pwd-fixed">
+                                    <a class="theme-btn btn-black" id="jsUserResetPwd" >修改密码</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="info-right">
+                                <form class="gray-control" id="jsEditUserForm" autocomplete="off">
+                                    <li>
+                                        <div class="form-group">
+                                            <span>昵&nbsp;&nbsp;&nbsp;&nbsp;称</span>
+                                            <input type="text" name="nick_name" id="nick_name" class="form-control" value="{{ request.user.nick_name }}" maxlength="50">
+                                            <i class="error-tips"></i>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group">
+                                            <span>性&nbsp;&nbsp;&nbsp;&nbsp;别</span>
+                                            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="gender" value="male" {% if request.user.gender == 'male' %}checked="checked"{% endif %}>男</label>
+                                            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="gender" value="female" {% if request.user.gender == 'female' %}checked="checked"{% endif %}>女</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group">
+                                            <span style="padding-right: 13px;">手机号</span>
+                                            <input type="text" name="mobile" id="mobile" class="form-control" value="{{ request.user.mobile|default_if_none:'' }}" maxlength="11">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group">
+                                            <span>地&nbsp;&nbsp;&nbsp;&nbsp;址</span>
+                                            <input type="text" name="address" id="address" class="form-control" value="{{ request.user.address }}" maxlength="100">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group">
+                                            <span>邮&nbsp;&nbsp;&nbsp;&nbsp;箱</span>
+                                            <input type="text" class="form-control" style="width:65%;" name="email" readonly="readonly" value="{{ request.user.email }}">
+                                            <span style="width:15%; float: right; margin: 0 6px;text-align:center; cursor:pointer;" class="theme-btn btn-black" id="jsChangeEmailEntry">修改</span>
+                                        </div>
+                                    </li>
+                                    <div class="submit-button">
+                                        <input type="button" class="theme-btn btn-black" id="jsEditUserBtn" value="保存修改">
+                                    </div>
+                                    {% csrf_token %}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <!-- Sidebar Starts -->
+            <aside class="col-md-3 col-sm-4">
+                <div class="widget-wrap">
+                    <h2 class="widget-title"> <span class="light-font">我的</span> <strong>账户</strong> </h2>
+                    <div class="divider-full-1"></div>
+                    <ul class="cate-widget">
+                        <li> <i class="fa fa-arrow-circle-o-right clr-txt"></i> <a href="{% url "user:info" %}">用户信息</a></li>
+                        <li> <i class="fa fa-arrow-circle-o-right clr-txt"></i> <a href="{% url "user:fav" %}">用户收藏</a></li>
+                        <li> <i class="fa fa-arrow-circle-o-right clr-txt"></i> <a href="{% url "user:order" %}">用户订单</a></li>
+                        <li> <i class="fa fa-arrow-circle-o-right clr-txt"></i> <a href="{% url "user:message" %}">用户消息</a></li>
+                    </ul>
+                </div>
+            </aside>
+            <!-- Sidebar Ends -->
+        </div>
+    </div>
+</section>
+<!-- / My Account Ends -->
+
+<!-- Product Preview Popup -->
+<section class="modal fade" id="jsResetDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg user-info">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <h5>请输入新密码</h5>
+                <form id="jsResetPwdForm" autocomplete="off">
+                    <div class="input-group form-group">
+                        <span class="input-group-addon" id="basic-addon1">新&nbsp;&nbsp;密&nbsp;&nbsp;码</span>
+                        <input class="form-control" type="password" id="pwd" name="password" placeholder="6-20位非中文字符"/>
+                    </div>
+                    <div class="input-group form-group">
+                        <span class="input-group-addon" id="basic-addon1">确认密码</span>
+                        <input class="form-control" type="password" id="repwd" name="password2" placeholder="6-20位非中文字符"/>
+                    </div>
+                    <div class="error btns alert alert-warning" style="padding: 10px;text-align:center;" id="jsResetPwdTips" role="alert"></div>
+                    <div class="submit-button">
+                        <input type="button" id="jsResetPwdBtn" class="theme-btn btn-black" value="提交" />
+                    </div>
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- / Product Preview Popup -->
+
+<section class="modal fade" id="jsChangeEmailDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg user-info">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">修改邮箱</h4>
+            </div>
+            <div class="modal-body">
+                <h5>请输入新邮箱</h5>
+                <form id="jsChangeEmailForm" autocomplete="off">
+                    <div class="form-group">
+                        <input class="form-control" name="email" id="jsChangeEmail" type="text" placeholder="输入新的邮箱地址" />
+                    </div>
+                    <div class="form-group" style="position: relative;">
+                        <input class="form-control" id="jsChangeEmailCode" name="code" type="text" placeholder="输入邮箱验证码"/>
+                        <input class="theme-btn btn-black getcode" style="position:absolute;right:0;top:0;width:96px;text-align:center;padding: 0 5px;" id="jsChangeEmailCodeBtn" type="button" value="获取验证码"/>
+                    </div>
+                    <div class="error btns alert alert-warning" style="padding: 10px; text-align:center;" id="jsChangeEmailTips" role="alert"></div>
+                    <div class="submit-button">
+                        <input type="button" id="jsChangeEmailBtn" class="theme-btn btn-black" value="提交" />
+                    </div>
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- / Product Preview Popup -->
+
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript" src="{% static "js/plugin/jquery.upload.js" %}"></script>
+<script type="text/javascript" src="{% static "js/validate.js" %}"></script>
+<script type="text/javascript" src="{% static "js/validateDialog.js" %}"></script>
+<script type="text/javascript" src="{% static "js/user.js" %}"></script>
+{% endblock %}

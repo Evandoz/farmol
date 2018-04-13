@@ -1,0 +1,87 @@
+﻿{% extends "base.html" %}
+
+{% block title %}用户消息{% endblock %}
+
+{% block content %}
+<!--Breadcrumb Section Start-->
+<section class="breadcrumb-bg">
+    <div class="theme-container container ">
+        <div class="site-breadcumb">
+            <h2 class="section-title"> <span class="light-font">我的</span> <strong class="clr-txt">账户</strong> </h2>
+            <ol class="breadcrumb breadcrumb-menubar">
+                <li> <a href="#">主页</a>修改信息</li>
+            </ol>
+        </div>
+    </div>
+</section>
+<!--Breadcrumb Section End-->
+<!-- My Account Starts-->
+<section class="account-page ptb-50">
+    <div class="container">
+        <div class="row">
+            <aside class="col-md-9 col-sm-8 ptb-15">
+                <div class="account-wrap">
+                        <div class="row">
+                            <table class="product-table">
+                                <thead class="">
+                                    <tr>
+                                        <th>消息</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for message in all_messages.object_list %}
+                                        <tr>
+                                            <td class="description">
+                                                {{ message.message }}
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                </div>
+            </aside>
+            <!-- Sidebar Starts -->
+            <aside class="col-md-3 col-sm-4">
+                <div class="widget-wrap">
+                    <h2 class="widget-title"> <span class="light-font">我的</span> <strong>账户</strong> </h2>
+                    <div class="divider-full-1"></div>
+                    <ul class="cate-widget">
+                        <li> <i class="fa fa-arrow-circle-o-right clr-txt"></i> <a href="{% url "user:info" %}">用户信息</a></li>
+                        <li> <i class="fa fa-arrow-circle-o-right clr-txt"></i> <a href="{% url "user:fav" %}">用户收藏</a></li>
+                        <li> <i class="fa fa-arrow-circle-o-right clr-txt"></i> <a href="{% url "user:order" %}">用户订单</a></li>
+                        <li> <i class="fa fa-arrow-circle-o-right clr-txt"></i> <a href="{% url "user:message" %}">用户消息</a></li>
+                    </ul>
+                </div>
+            </aside>
+            <!-- Sidebar Ends -->
+        </div>
+    </div>
+</section>
+<!-- / My Account Ends -->
+<!-- / CONTENT AREA -->
+
+{% endblock %}

@@ -1,0 +1,153 @@
+﻿{% extends "base.html" %}{% load staticfiles %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+<!--Breadcrumb Section Start-->
+<section class="breadcrumb-bg">
+    <div class="theme-container container ">
+        <div class="site-breadcumb">
+            <h2 class="section-title"> <span class="light-font">我的</span> <strong class="clr-txt">账户</strong> </h2>
+            <ol class="breadcrumb breadcrumb-menubar">
+                <li> <a href="#">主页</a>用户订单</li>
+            </ol>
+        </div>
+        <div class="searchbox fr">
+            <form action="{% url "user:order" %}">
+            <input name="year_from" class="fl" type="text" value=""/>
+            <input name="month_from" class="fl" type="text" value=""/>
+            <input name="day_from" class="fl" type="text" value=""/>
+            <input name="year_to" class="fl" type="text" value=""/>
+            <input name="month_to" class="fl" type="text" value=""/>
+            <input name="date_to" class="fl" type="text" value=""/>
+            <input type="button" class="search_list">
+            </form>
+        </div>
+    </div>
+</section>
+<!--Breadcrumb Section End-->
+<!-- My Account Starts-->
+<section class="account-page ptb-50">
+    <div class="container">
+        <!-- Shopping Cart Starts -->
+        <div class="cart-table">
+            <form class="cart-form">
+                <table class="product-table">
+                    <thead class="">
+                        <tr>
+                            <th>图片</th>
+                            <th>商品</th>
+                            <th><a href="?sort=price">价格</a></th>
+                            <th>数量</th>
+                            <th><a href="?sort=date">时间</a></th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                </table>
+                {% for orders in all_orders.object_list %}
+                    <table class="product-table">
+                        <thead class="">
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders.userorder_set.all %}
+                                <tr>
+                                    <td class="image" style="width:300px;">
+                                        <div class="white-bg">
+                                            <a class="media-link" href="#"><img src="{{ MEDIA_URL }}{{ order.product.photo }}" alt=""></a>
+                                        </div>
+                                    </td>
+                                    <td class="description" style="width:100px">
+                                        <h3 class="product-title no-margin"> <a href="#"> <span class="light-font">有机</span> <strong>{{ order.product.name }}</strong> </a> </h3>
+                                    </td>
+
+
+                                    <td>
+                                        <div class="price fontbold-2">
+                                            <strong class="fsz-20">{% if forloop.first %}{{ orders.price }}{% endif %} </strong>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="prod-btns fontbold-2">
+                                            <b class="fsz-16">{{ order.count }}</b>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="text-center pt-20"> <b class="fsz-16">{% if forloop.first %}{{ orders.add_time|date:'Y-m-d' }}{% endif %}</b> </div>
+                                    </td>
+                                    <td>
+                                        <div class="prod-btns fontbold-2">
+                                            <b class="fsz-16">{{ orders.get_status_display }}</b>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+
+                <div class="rel-div pt-50">
+                                <div class="divider-full-1"></div>
+                                <div class="nav-page">
+                                    <a href="{% if all_orders.has_previous %}?{{ all_orders.previous_page_number.querystring }}{% else %}#{% endif %}" class="fa fa-long-arrow-left left"></a>
+                                    <a href="{% if all_orders.has_next %}?{{ all_orders.next_page_number.querystring }}{% else %}#{% endif %}" class="fa fa-long-arrow-right right"></a>
+                                </div>
+                            </div>
+                            <div class="pagination-wrap">
+                                <ul class="pagintn">
+                                    {% for page in all_orders.pages %}
+                                        {% if page %}
+                                            {% ifequal page all_orders.number %}
+                                                <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                            {% else %}
+                                                <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                                            {% endifequal %}
+                                        {% else %}
+                                            <li class="none"><a href="">...</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                <div class="continue-shopping text-center">
+                    <a href="{% url "user:info" %}" class="theme-btn btn">返回账户</a>
+                </div>
+            </form>
+        </div>
+        <!-- / Shopping Cart Ends -->
+    </div>
+</section>
+<!-- / My Account Ends -->
+<!-- / CONTENT AREA -->
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+    $(".search").on("click", function(){
+        var type = $('#jsSelectOption').attr('data-value'),
+            keywords = $('#search_keywords').val(),
+            request_url = '';
+        if(keywords == ""){
+            return
+        }
+        if(type == "course"){
+            request_url = "/course/list?keywords="+keywords
+        }else if(type == "teacher"){
+            request_url = "/school/teacher/list?keywords="+keywords
+        }else if(type == "school"){
+            request_url = "/school/list?keywords="+keywords
+        }
+        window.location.href = request_url
+    });
+</script>
+{% endblock %}

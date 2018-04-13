@@ -1,0 +1,26 @@
+{% load i18n %}
+<div class="btn-group export">
+	<a class="dropdown-toggle btn btn-default btn-sm" data-toggle="dropdown" href="#">
+		<i class="icon-share"></i> 导入 <span class="caret"></span>
+	</a>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+		<li><a data-toggle="modal" data-target="#import-modal-excel" href=""></a></li>
+	</ul>
+	<script>
+		function fileChange(target){
+			var imgName = document.all.submit_upload.value;
+			var ext,idx;
+			if (imgName == ''){
+				document.all.submit_upload_b.disabled=true;
+				alert("请选择需要上传的xls文件");
+				return;
+			}else {
+				idx = imgName.lastIndexOf(".");
+				if (idx != -1) {
+					ext = imgName.substr(idx+1).toUpperCase();
+					ext = ext.toLowerCase();
+				}
+			}
+		}
+	</script>
+</div>

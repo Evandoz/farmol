@@ -1,0 +1,305 @@
+﻿{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<!--Breadcrumb Section Start-->
+<section class="breadcrumb-bg">
+    <div class="theme-container container ">
+        <div class="site-breadcumb white-clr">
+            <h2 class="section-title"> <strong class="clr-txt">养汇</strong> <span class="light-font">商店</span> </h2>
+            <ol class="breadcrumb breadcrumb-menubar">
+            <li> <a href="#">主页</a>商店</li>
+            </ol>
+        </div>
+    </div>
+</section>
+<!--Breadcrumb Section End-->
+
+<!-- Shop Starts-->
+<section class="shop-wrap sec-space-bottom">
+    <div class="pattern">
+        <img alt="" src="{% static "img/icons/white-pattern.png" %}">
+    </div>
+
+    <div class="container rel-div">
+        <div class="row sort-bar">
+            <div class="icon"> <img alt="" src="{% static "img/logo/logo-2.png" %}" /></div>
+                <div class="col-lg-6">
+                    <div class="sort-dropdown left">
+                        <span></span>
+                        <div class="search-selectpicker selectpicker-wrapper">
+                            <!--<select class="selectpicker input-price"  data-width="100%" data-toggle="tooltip">
+                                <option>All product</option>
+                                <option>A - Z</option>
+                                <option>Z - A</option>
+                                <option> Low - High </option>
+                                <option> High - Low </option>
+                            </select>-->
+                        </div>
+                    </div>
+                    <div class="sort-dropdown">
+                        <span></span>
+                        <div class="search-selectpicker selectpicker-wrapper">
+                        <!--<select class="selectpicker input-price"  data-width="100%" data-toggle="tooltip">
+                            <option>Popular item</option>
+                            <option>A - Z</option>
+                            <option>Z - A</option>
+                            <option> Low - High </option>
+                            <option> High - Low </option>
+                        </select>-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 right">
+                <div class="sort-dropdown">
+                    <span></span>
+                    <div class="search-selectpicker selectpicker-wrapper">
+                        <!--<select class="selectpicker input-price"  data-width="100%" data-toggle="tooltip">
+                            <option> Low to High </option>
+                            <option> High to Low </option>
+                        </select>-->
+                    </div>
+                </div>
+                <div class="sort-range">
+                    <span></span> <!--<div id="price-range"></div>-->
+                </div>
+            </div>
+        </div>
+
+        <div class="divider-full-1"></div>
+
+        <div class="result-bar block-inline">
+            <ul class="view-tabs">
+                <li class="active">
+                    <a href="#grid-view" data-toggle="tab"><i class="fa fa-th"></i></a>
+                </li>
+                <li class="">
+                    <a href="#list-view" data-toggle="tab"><i class="fa fa-th-list"></i></a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tab-content shop-content">
+            <div id="grid-view" class="tab-pane fade active in" role="tabpanel">
+                            <div class="row">
+                                {% for product in products.object_list %}
+                                    <div class="col-lg-3 col-md-4 col-sm-6">
+                                        <div class="product-box">
+                                            <div class="product-media">
+                                                <img class="prod-img" alt="" src="{{ MEDIA_URL }}{{ product.photo }}" />
+                                                <img class="shape" alt="" src="{% static "img/icons/shap-small.png" %}" />
+                                                <div class="prod-icons">
+                                                    <a href="" data-id="{{ product.id }}" class="fa fa-heart"></a>
+                                                    <a href="" class="fa fa-shopping-basket"></a>
+                                                    <a  href="#product-preview" data-id="{{ product.id }}" data-toggle="modal" class="fa fa-expand"></a>
+                                                </div>
+                                            </div>
+                                            <div class="product-caption">
+                                                <h3 class="product-title">
+                                                    <a href="#"><span class="light-font">有机</span><strong>{{ product.name }}</strong></a>
+                                                </h3>
+                                                <div class="price">
+                                                    <strong class="clr-txt">${{ product.price }} </strong> <del class="light-font">$65.00 </del>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="rel-div pt-50">
+                                <div class="divider-full-1"></div>
+                                <div class="nav-page">
+                                    <a href="{% if products.has_previous %}?{{ products.previous_page_number.querystring }}{% else %}#{% endif %}" class="fa fa-long-arrow-left left"></a>
+                                    <a href="{% if products.has_next %}?{{ products.next_page_number.querystring }}{% else %}#{% endif %}" class="fa fa-long-arrow-right right"></a>
+                                </div>
+                            </div>
+                            <div class="pagination-wrap">
+                                <ul class="pagintn">
+                                    {% for page in products.pages %}
+                                        {% if page %}
+                                            {% ifequal page products.number %}
+                                                <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                            {% else %}
+                                                <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                                            {% endifequal %}
+                                        {% else %}
+                                            <li class="none"><a href="">...</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div id="list-view" class="tab-pane fade" role="tabpanel">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="deal-item list-view">
+                                        <div class="deal-icons">
+                                            <a href="#" class="fa fa-heart"></a>
+                                            <a href="#" class="fa fa-shopping-basket"></a>
+                                            <a href="#product-preview" data-toggle="modal" class="fa fa-expand"></a>
+                                        </div>
+                                        <div class="deal-content">
+                                            <div class="text-right">
+                                                <span class="prod-tag tag-1">new</span> <span class="prod-tag tag-2">sale</span>
+                                            </div>
+                                            <div class="deal-text">
+                                                <h4 class="sub-title"> ORGANIC FRUITS </h4>
+                                                <h2 class="fsz-30 pb-15"> <a href="#"> <span class="light-font">fresh </span> <strong>rasberry </strong> </a> </h2>
+                                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy...</p>
+                                                <div class="price pt-15">
+                                                    <strong class="clr-txt">$50.00 </strong> <del class="light-font">$65.00 </del>
+                                                </div>
+                                            </div>
+                                            <div class="img"> <img alt="" src="{% static "img/extra/deal-1.png" %}"> </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="deal-item list-view">
+                                        <div class="deal-icons">
+                                            <a href="#" class="fa fa-heart"></a>
+                                            <a href="#" class="fa fa-shopping-basket"></a>
+                                            <a href="#product-preview" data-toggle="modal" class="fa fa-expand"></a>
+                                        </div>
+                                        <div class="deal-content">
+                                            <div class="text-right">
+                                                <span class="prod-tag tag-1">new</span> <span class="prod-tag tag-2">sale</span>
+                                            </div>
+                                            <div class="deal-text">
+                                                <h4 class="sub-title"> ORGANIC FRUITS </h4>
+                                                <h2 class="fsz-30 pb-15"> <a href="#"> <span class="light-font">fresh </span> <strong>cherry </strong> </a> </h2>
+                                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy...</p>
+                                                <div class="price pt-15">
+                                                    <strong class="clr-txt">$50.00 </strong> <del class="light-font">$65.00 </del>
+                                                </div>
+                                            </div>
+                                            <div class="img"> <img alt="" src="{% static "img/products/3.png" %}"> </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="deal-item list-view">
+                                        <div class="deal-icons">
+                                            <a href="#" class="fa fa-heart"></a>
+                                            <a href="#" class="fa fa-shopping-basket"></a>
+                                            <a href="#product-preview" data-toggle="modal" class="fa fa-expand"></a>
+                                        </div>
+                                        <div class="deal-content">
+                                            <div class="text-right">
+                                                <span class="prod-tag tag-1">new</span> <span class="prod-tag tag-2">sale</span>
+                                            </div>
+                                            <div class="deal-text">
+                                                <h4 class="sub-title"> ORGANIC FRUITS </h4>
+                                                <h2 class="fsz-30 pb-15"> <a href="#"> <span class="light-font">fresh </span> <strong>mushroom </strong> </a> </h2>
+                                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy...</p>
+                                                <div class="price pt-15">
+                                                    <strong class="clr-txt">$50.00 </strong> <del class="light-font">$65.00 </del>
+                                                </div>
+                                            </div>
+                                            <div class="img"> <img alt="" src="{% static "img/products/7.png" %}"> </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="deal-item list-view">
+                                        <div class="deal-icons">
+                                            <a href="#" class="fa fa-heart"></a>
+                                            <a href="#" class="fa fa-shopping-basket"></a>
+                                            <a href="#product-preview" data-toggle="modal" class="fa fa-expand"></a>
+                                        </div>
+                                        <div class="deal-content">
+                                            <div class="text-right">
+                                                <span class="prod-tag tag-1">new</span> <span class="prod-tag tag-2">sale</span>
+                                            </div>
+                                            <div class="deal-text">
+                                                <h4 class="sub-title"> ORGANIC FRUITS </h4>
+                                                <h2 class="fsz-30 pb-15"> <a href="#"> <span class="light-font">fresh </span> <strong>pepper </strong> </a> </h2>
+                                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy...</p>
+                                                <div class="price pt-15">
+                                                    <strong class="clr-txt">$50.00 </strong> <del class="light-font">$65.00 </del>
+                                                </div>
+                                            </div>
+                                            <div class="img"> <img alt="" src="{% static "img/products/8.png" %}"> </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="deal-item list-view">
+                                        <div class="deal-icons">
+                                            <a href="#" class="fa fa-heart"></a>
+                                            <a href="#" class="fa fa-shopping-basket"></a>
+                                            <a href="#product-preview" data-toggle="modal" class="fa fa-expand"></a>
+                                        </div>
+                                        <div class="deal-content">
+                                            <div class="text-right">
+                                                <span class="prod-tag tag-1">new</span> <span class="prod-tag tag-2">sale</span>
+                                            </div>
+                                            <div class="deal-text">
+                                                <h4 class="sub-title"> ORGANIC FRUITS </h4>
+                                                <h2 class="fsz-30 pb-15"> <a href="#"> <span class="light-font">fresh </span> <strong>cabbage </strong> </a> </h2>
+                                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy...</p>
+                                                <div class="price pt-15">
+                                                    <strong class="clr-txt">$50.00 </strong> <del class="light-font">$65.00 </del>
+                                                </div>
+                                            </div>
+                                            <div class="img"> <img alt="" src="{% static "img/products/2.png" %}"> </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="deal-item list-view">
+                                        <div class="deal-icons">
+                                            <a href="#" class="fa fa-heart"></a>
+                                            <a href="#" class="fa fa-shopping-basket"></a>
+                                            <a href="#product-preview" data-toggle="modal" class="fa fa-expand"></a>
+                                        </div>
+                                        <div class="deal-content">
+                                            <div class="text-right">
+                                                <span class="prod-tag tag-1">new</span> <span class="prod-tag tag-2">sale</span>
+                                            </div>
+                                            <div class="deal-text">
+                                                <h4 class="sub-title"> ORGANIC FRUITS </h4>
+                                                <h2 class="fsz-30 pb-15"> <a href="#"> <span class="light-font">fresh </span> <strong>salad </strong> </a> </h2>
+                                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy...</p>
+                                                <div class="price pt-15">
+                                                    <strong class="clr-txt">$50.00 </strong> <del class="light-font">$65.00 </del>
+                                                </div>
+                                            </div>
+                                            <div class="img"> <img alt="" src="{% static "img/products/4.png" %}"> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="rel-div pt-50">
+                                <div class="divider-full-1"></div>
+                                <div class="nav-page">
+                                    <a href="#" class="fa fa-long-arrow-left left"></a>
+                                    <a href="#" class="fa fa-long-arrow-right right"></a>
+                                </div>
+                            </div>
+
+                            <div class="pagination-wrap">
+                                <ul class="pagintn">
+                                    <li><a href="#">01</a></li>
+                                    <li><a href="#">02</a></li>
+                                    <li><a href="#">03</a></li>
+                                    <li><a href="#">04</a></li>
+                                    <li><a href="#">05</a></li>
+                                    <li><a href="#">...</a></li>
+                                    <li><a href="#">15</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- / Shop Ends -->
+            {% endblock %}
